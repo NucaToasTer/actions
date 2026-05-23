@@ -1,0 +1,33 @@
+name: Build macOS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # lets you trigger manually from the Actions tab
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install LLVM & Ninja
+        run: brew install llvm ninja
+
+      - name: Configure
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++ \
+            -DCMAKE_C_COMPILER=$(brew --prefix llvm)/bin/clang \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-macos
+          path: build/main
