@@ -34,22 +34,33 @@ target_sources(main
     PUBLIC
     FILE_SET CXX_MODULES FILES
         test_modules.cppm
-        raylib_gui.cppm              # <-- Exposes your type-safe C++23 UI wrapper
+        raylib_gui.cppm
 )
 
-# Tell the compiler to look inside your local 'lib' folder for headers first
-target_include_directories(main PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib   # <-- Path to your local v6.0 raylib.h & raygui.h
-    ${raylib_SOURCE_DIR}/src          # Internal raylib source tracking
+target_include_directories(main PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${raylib_SOURCE_DIR}/src
 )
 
-# Link against the freshly built static raylib library
 target_link_libraries(main PRIVATE raylib)
 
 # ============================================================================
-# 3. COMPILER SPECIFIC CONFIGURATIONS
+# 3. MACOS FRAMEWORK LINKING
 # ============================================================================
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(APPLE)
+    target_link_libraries(main PRIVATE
+        "-framework OpenGL"
+        "-framework Cocoa"
+        "-framework IOKit"
+        "-framework CoreVideo"
+        "-framework CoreFoundation"
+    )
+endif()
+
+# ============================================================================
+# 4. COMPILER SPECIFIC CONFIGURATIONS
+# ============================================================================
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT APPLE)
     target_compile_options(main PRIVATE -fuse-ld=lld)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(main PRIVATE -fmodules-ts)
@@ -58,8 +69,10 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(main PRIVATE /std:c++23 /EHsc)
 endif()
 
-# Auto-copy LLVM-MinGW runtime DLLs after a successful build
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+# ============================================================================
+# 5. AUTO-COPY LLVM-MINGW RUNTIME DLLS (Windows only)
+# ============================================================================
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND WIN32)
     set(LLVM_BIN "D:/llvm-mingw/llvm-mingw-20260505-ucrt-x86_64/bin")
     add_custom_command(TARGET main POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
