@@ -15,7 +15,8 @@ jobs:
 
       - name: Install LLVM & Ninja
         run: |
-          brew install llvm ninja
+          brew install llvm
+          brew list ninja &>/dev/null || brew install ninja
           echo "LLVM_PREFIX=$(brew --prefix llvm)" >> $GITHUB_ENV
 
       - name: Configure
