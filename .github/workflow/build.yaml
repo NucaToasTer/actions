@@ -3,7 +3,7 @@ name: Build macOS
 on:
   push:
     branches: [main]
-  workflow_dispatch:        # lets you trigger manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build-macos:
@@ -14,13 +14,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install LLVM & Ninja
-        run: brew install llvm ninja
+        run: |
+          brew install llvm ninja
+          echo "LLVM_PREFIX=$(brew --prefix llvm)" >> $GITHUB_ENV
 
       - name: Configure
         run: |
           cmake -B build -G Ninja \
-            -DCMAKE_CXX_COMPILER=$(brew --prefix llvm)/bin/clang++ \
-            -DCMAKE_C_COMPILER=$(brew --prefix llvm)/bin/clang \
+            -DCMAKE_CXX_COMPILER=${{ env.LLVM_PREFIX }}/bin/clang++ \
+            -DCMAKE_C_COMPILER=${{ env.LLVM_PREFIX }}/bin/clang \
+            -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=${{ env.LLVM_PREFIX }}/bin/ld64.lld" \
             -DCMAKE_BUILD_TYPE=Release
 
       - name: Build

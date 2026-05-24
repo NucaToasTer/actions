@@ -1,0 +1,53 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake: Configure",
+      "type": "shell",
+      "command": "D:/code/c++/cmake/installed/bin/cmake.exe",
+      "args": [
+        "-S",
+        "${workspaceFolder}",
+        "-B",
+        "${workspaceFolder}/build",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+      ],
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "CMake: Build",
+      "type": "shell",
+      "command": "D:/code/c++/cmake/installed/bin/cmake.exe",
+      "args": ["--build", "${workspaceFolder}/build"],
+      "dependsOn": "CMake: Configure",
+      "problemMatcher": ["$gcc", "$msCompile"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "CMake: Clean",
+      "type": "shell",
+      "command": "Remove-Item -Recurse -Force ${workspaceFolder}/build",
+      "args": [],
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/main.exe",
+      "dependsOn": "CMake: Build",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
+}

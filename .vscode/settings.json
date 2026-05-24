@@ -1,0 +1,5 @@
+{
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "clangd.path": "D:/llvm-mingw/llvm-mingw-20260505-ucrt-x86_64/bin/clangd.exe",
+  "clangd.arguments": ["--background-index", "--compile-commands-dir=build"]
+}

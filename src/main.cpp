@@ -1,0 +1,10 @@
+import io;
+
+int main()
+{
+   string x = "hello world";
+
+   print("{}", x);
+
+    return 0;
+}

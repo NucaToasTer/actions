@@ -1,0 +1,62 @@
+{
+    "configurations": [
+        {
+            "name": "MSVC",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-msvc-x64",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+            "compilerArgs": [
+                "/std:c++23preview",
+                "/EHsc"
+            ]
+        },
+        {
+            "name": "GCC",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "D:/code/c++/compilers/mysys2/installed/ucrt64/bin/g++.exe",
+            "compilerArgs": [
+                "-fmodules-ts",
+                "-lstdc++exp"
+            ]
+        },
+        {
+            "name": "CLANG",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.26100.0",
+            "cStandard": "c17",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-clang-x64",
+            "compilerPath": "D:/llvm-mingw/llvm-mingw-20260505-ucrt-x86_64/bin/clang++.exe",
+            "compilerArgs": [
+                "-stdlib=libstdc++"
+            ]
+        }
+    ],
+    "version": 4
+}
